@@ -1,22 +1,27 @@
-<h1>{{item? 'Update': 'New'}} Item</h1>
-<form [formGroup]="form">
-  <div class="row g-3">
-    <div class="col-md-6">
-      <label for="titleInput" class="form-label">Title</label>
-      <input type="text" class="form-control" formControlName="title" id="titleInput" placeholder="A new tile">
+<div class="container-md d-flex flex-column align-items-center justify-content-center">
+  <h1>{{item? 'Update': 'New'}} Item</h1>
+  <form [formGroup]="form" class="w-100">
+    <div class="row g-3 justify-content-center align-items-center">
+      <div class="col-md-6">
+        <label for="titleInput" class="form-label">Title</label>
+        <input type="text" class="form-control" formControlName="title" id="titleInput" placeholder="A new tile"
+          required>
+      </div>
+      <div class="w-100"></div>
+      <div class="col-md-6">
+        <label for="descriptionInput" class="form-label">Description</label>
+        <textarea type="text" class="form-control" formControlName="description" id="descriptionInput"
+          placeholder="A new description" [rows]="3" required></textarea>
+      </div>
     </div>
-    <div class="col-md-12">
-      <label for="descriptionInput" class="form-label">Description</label>
-      <textarea type="text" class="form-control" formControlName="description" id="descriptionInput"
-        placeholder="A new description" [rows]="3"></textarea>
-    </div>
+  </form>
+  <div>
+    <button class="btn btn-primary my-2" [disabled]="!form.valid" (click)="submit()">{{item? 'Update': 'Create'}}
+      Item</button>
+    <button *ngIf="item" class="btn btn-outline-danger my-2 mx-2" (click)="delete()">Delete Item</button>
   </div>
-  <button class="btn btn-primary my-2" (click)="submit()">{{item? 'Update': 'Create'}} Item</button>
-  <button *ngIf="item" class="btn btn-outline-danger my-2 mx-2" (click)="delete()">Delete Item</button>
 
-</form>
-
-<div>
-  <small> <a class="link-primary my-2" routerLink="/items">Back to Items List</a></small>
-
+  <div>
+    <small> <a class="link-primary my-2" routerLink="/items">Back to Items List</a></small>
+  </div>
 </div>

@@ -1,12 +1,13 @@
-<div class="container-fluid d-flex flex-column align-items-center justify-content-center">
+<div class="container-md d-flex flex-column align-items-center justify-content-center page">
   <h1>Items</h1>
 
   <form class="d-flex flex-row align-items-center my-2 ">
     <input class="form-control" [formControl]="searchControl" type="search" placeholder="Search" aria-label="Search">
   </form>
 
-  <p *ngIf="searchControl.value">Showing all items containing <span
-      class="fw-bold text-lowercase">"{{searchControl.value}}"</span></p>
+  <p *ngIf="searchControl.value">Showing all items containing
+    <span class="fw-bold text-lowercase">"{{searchControl.value}}"</span>
+  </p>
 
   <div class="list-group my-2 w-100">
     <a routerLink="" [routerLink]="['./edit', item.id]" *ngFor="let item of items$|async"
@@ -14,10 +15,10 @@
       <h5 class="mb-1">{{item.title}}</h5>
       <p class="mb-1">{{item.description}}</p>
     </a>
-    <p class="text-muted my-2" *ngIf="(items$|async)?.length === 0">No Items to display
+    <p class="text-muted my-2 text-center" *ngIf="(items$|async)?.length === 0">No Items to display<br>
     </p>
   </div>
-  <button class="btn btn-outline-primary" routerLink="./new" role="link">Add a new Item</button>
+  <button class="btn btn-outline-primary my-2" routerLink="./new" role="link">Add a new Item</button>
 
 
 </div>
