@@ -6,7 +6,7 @@ import { Item } from './item.model';
   providedIn: 'root',
 })
 export class ItemsService {
-  private _allItems: Item[] = this.demoData();
+  private _allItems: Item[] = [];
   private _items$ = new BehaviorSubject<Item[]>(this._allItems);
 
   constructor() {}
@@ -26,7 +26,9 @@ export class ItemsService {
    * @param updatedItem the item to update
    */
   updateItem(updatedItem: Item) {
-    const itemToUpdateIndex = this._allItems.findIndex(item => item.id === updatedItem.id);
+    const itemToUpdateIndex = this._allItems.findIndex(
+      (item) => item.id === updatedItem.id
+    );
     this._allItems[itemToUpdateIndex] = updatedItem;
     this._items$.next(this._allItems);
   }
@@ -36,8 +38,10 @@ export class ItemsService {
    * @param itemToDelete the item to delete
    */
   deleteItem(itemToDelete: Item) {
-    const itemToDeleteIndex = this._allItems.findIndex(item => item.id === itemToDelete.id);
-    this._allItems.splice(itemToDeleteIndex,1);
+    const itemToDeleteIndex = this._allItems.findIndex(
+      (item) => item.id === itemToDelete.id
+    );
+    this._allItems.splice(itemToDeleteIndex, 1);
     this._items$.next(this._allItems);
   }
 
@@ -47,12 +51,26 @@ export class ItemsService {
    * @returns the item corresponding to the `id` if it exists or `undefined`
    */
   getItem(id: number) {
-    console.log(this._items$.value)
+    console.log(this._items$.value);
     return this._allItems.find((item) => item.id === id);
   }
 
   get items() {
     return this._items$.asObservable();
+  }
+
+  search(query: string) {
+    query = query.toLowerCase();
+    const results: Item[] = [];
+    this._allItems.forEach((item) => {
+      if (
+        item.title.toLowerCase().includes(query) ||
+        item.description.toLowerCase().includes(query)
+      ) {
+        results.push(item);
+      }
+    });
+    this._items$.next(results);
   }
 
   private demoData(numberOfItems: number = 5) {
