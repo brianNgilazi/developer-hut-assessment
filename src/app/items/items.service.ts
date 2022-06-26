@@ -3,41 +3,68 @@ import { BehaviorSubject } from 'rxjs';
 import { Item } from './item.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemsService {
+  private _allItems: Item[] = this.demoData();
+  private _items$ = new BehaviorSubject<Item[]>(this._allItems);
 
-  private allItems: Item[] = []
-  private items$ = new BehaviorSubject<Item[]>([]);
-
-  constructor() { }
+  constructor() {}
 
   /**
    * Add an Item to the array of all items
    * @param item the item to add to the list
    */
-  addItem(item: Partial<Item>){
-
+  addItem(item: Partial<Item>) {
+    item.id = this._allItems.length;
+    this._allItems.push(item as Item);
+    this._items$.next(this._allItems);
   }
 
   /**
    * Update an item in the array
-   * @param item the item to update
+   * @param updatedItem the item to update
    */
-  updateItem(item: Item){
-
+  updateItem(updatedItem: Item) {
+    const itemToUpdateIndex = this._allItems.findIndex(item => item.id === updatedItem.id);
+    this._allItems[itemToUpdateIndex] = updatedItem;
+    this._items$.next(this._allItems);
   }
 
   /**
    * Delete an item from the array
-   * @param item the item to delete
+   * @param itemToDelete the item to delete
    */
-  deleteItem(item: Item){
-
+  deleteItem(itemToDelete: Item) {
+    const itemToDeleteIndex = this._allItems.findIndex(item => item.id === itemToDelete.id);
+    this._allItems.splice(itemToDeleteIndex,1);
+    this._items$.next(this._allItems);
   }
 
-  get items(){
-    return this.items$.asObservable();
+  /**
+   * Get an item with the provided id
+   * @param id
+   * @returns the item corresponding to the `id` if it exists or `undefined`
+   */
+  getItem(id: number) {
+    console.log(this._items$.value)
+    return this._allItems.find((item) => item.id === id);
   }
 
+  get items() {
+    return this._items$.asObservable();
+  }
+
+  private demoData(numberOfItems: number = 5) {
+    const data: Item[] = [];
+    for (let i = 0; i < numberOfItems; i++) {
+      data.push({
+        id: i,
+        title: `Item ${i}`,
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vel ante et orci mollis interdum non eget metus.',
+      });
+    }
+    return data;
+  }
 }

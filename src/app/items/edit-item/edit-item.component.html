@@ -1,0 +1,22 @@
+<h1>{{item? 'Update': 'New'}} Item</h1>
+<form [formGroup]="form">
+  <div class="row g-3">
+    <div class="col-md-6">
+      <label for="titleInput" class="form-label">Title</label>
+      <input type="text" class="form-control" formControlName="title" id="titleInput" placeholder="A new tile">
+    </div>
+    <div class="col-md-12">
+      <label for="descriptionInput" class="form-label">Description</label>
+      <textarea type="text" class="form-control" formControlName="description" id="descriptionInput"
+        placeholder="A new description" [rows]="3"></textarea>
+    </div>
+  </div>
+  <button class="btn btn-primary my-2" (click)="submit()">{{item? 'Update': 'Create'}} Item</button>
+  <button *ngIf="item" class="btn btn-outline-danger my-2 mx-2" (click)="delete()">Delete Item</button>
+
+</form>
+
+<div>
+  <small> <a class="link-primary my-2" routerLink="/items">Back to Items List</a></small>
+
+</div>

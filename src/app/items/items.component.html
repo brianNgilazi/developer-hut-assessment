@@ -1,1 +1,21 @@
-<p>items works!</p>
+<div class="container-fluid d-flex flex-column align-items-center justify-content-center">
+  <h1>Items</h1>
+  <!-- <button class="btn btn-outline-primary" type="submit">Add a new Item</button> -->
+
+  <form class="d-flex flex-row align-items-center my-2 ">
+    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-dark mx-1" type="submit">Search</button>
+  </form>
+
+  <div class="list-group my-2">
+    <a routerLink="" [routerLink]="['./edit', item.id]" *ngFor="let item of items$|async" class="list-group-item list-group-item-action">
+      <h5 class="mb-1">{{item.title}}</h5>
+      <p class="mb-1">{{item.description}}</p>
+    </a>
+    <p class="text-muted my-2" *ngIf="(items$|async)?.length === 0">You have not added any items to your list
+    </p>
+  </div>
+  <button class="btn btn-outline-primary" routerLink="./new" role="link">Add a new Item</button>
+
+
+</div>
