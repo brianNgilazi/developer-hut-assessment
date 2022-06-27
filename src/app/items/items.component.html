@@ -5,12 +5,10 @@
     <input class="form-control" [formControl]="searchControl" type="search" placeholder="Search" aria-label="Search">
   </form>
 
-  <div class="my-2 d-flex flex-column align-items-center justify-content-center">
-  <img src="assets/no-data.svg" width="250px" class="m-2 m-lg-4" alt="">
-    <p class="my-2" *ngIf="searchControl.value">Showing all items containing
-      <span class="fw-bold text-lowercase">"{{searchControl.value}}"</span>
-    </p>
-  </div>
+  <p class="my-2" *ngIf="searchControl.value">Showing all items containing
+    <span class="fw-bold text-lowercase">"{{searchControl.value}}"</span>
+  </p>
+
 
   <div class="list-group my-2 w-100">
     <a routerLink="" [routerLink]="['./edit', item.id]" *ngFor="let item of items$|async"
@@ -18,8 +16,11 @@
       <h5 class="mb-1">{{item.title}}</h5>
       <p class="mb-1">{{item.description}}</p>
     </a>
-    <p class="text-muted my-2 text-center" *ngIf="(items$|async)?.length === 0">No Items to display<br>
-    </p>
+    <div *ngIf="(items$|async)?.length === 0" class="my-2 d-flex flex-column align-items-center justify-content-center">
+      <img src="assets/no-data.svg" width="200px" class="m-2 m-lg-4" alt="">
+      <p class="text-muted my-2 text-center" >No Items to display<br>
+      </p>
+    </div>
   </div>
   <button class="btn btn-primary my-2" routerLink="./new" role="link">Add a new Item</button>
 

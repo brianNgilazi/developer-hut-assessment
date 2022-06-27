@@ -6,7 +6,7 @@ import { Item } from './item.model';
   providedIn: 'root',
 })
 export class ItemsService {
-  private _allItems: Item[] = [];
+  private _allItems: Item[] = this.demoData();
   private _items$ = new BehaviorSubject<Item[]>(this._allItems);
 
   constructor() {}
@@ -59,6 +59,10 @@ export class ItemsService {
     return this._items$.asObservable();
   }
 
+  /**
+   * Perform a case insensitive search
+   * @param query the search query
+   */
   search(query: string) {
     query = query.toLowerCase();
     const results: Item[] = [];

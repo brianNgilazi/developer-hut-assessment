@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
+import { DialogComponent } from '../dialog/dialog.component';
 import { Item } from '../item.model';
 import { ItemsService } from '../items.service';
 
@@ -19,7 +22,9 @@ export class EditItemComponent implements OnInit, OnDestroy {
     private itemsService: ItemsService,
     private route: ActivatedRoute,
     private router: Router,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -49,18 +54,37 @@ export class EditItemComponent implements OnInit, OnDestroy {
     if (this.item) {
       const updatedItem = { ...this.item, ...this.form.value };
       this.itemsService.updateItem(updatedItem);
+      this.showSnackbar('Item Updated Successfully');
       this.router.navigate(['items']);
     } else {
+      this.showSnackbar('Item Created Successfully');
       this.itemsService.addItem(this.form.value);
       this.router.navigate(['items']);
     }
   }
 
-  delete(){
-    if(this.item){
-      this.itemsService.deleteItem(this.item);
-      this.router.navigate(['items']);
+  delete() {
+    if (this.item) {
+      this.dialog
+        .open(DialogComponent, {
+          data: {
+            message: 'This item will be deleted and cannot be recovered.',
+            title: 'Delete this item ?',
+            actionText: 'Delete Item',
+          },
+        })
+        .afterClosed()
+        .subscribe((confirmed: boolean) => {
+          if (confirmed) {
+            this.itemsService.deleteItem(this.item!);
+            this.showSnackbar('Item Deleted Successfully');
+            this.router.navigate(['items']);
+          }
+        });
     }
+  }
 
+  showSnackbar(message: string) {
+    this.snackbar.open(message, '', { duration: 5000 });
   }
 }

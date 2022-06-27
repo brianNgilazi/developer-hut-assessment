@@ -1,0 +1,6 @@
+<h2 mat-dialog-title>{{title}}</h2>
+<mat-dialog-content>{{message}}</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button class="btn link-danger m-2" mat-dialog-close>Cancel</button>
+  <button class="btn btn-primary m-2" [mat-dialog-close]="true">{{actionText}}</button>
+</mat-dialog-actions>
