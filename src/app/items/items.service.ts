@@ -6,7 +6,7 @@ import { Item } from './item.model';
   providedIn: 'root',
 })
 export class ItemsService {
-  private _allItems: Item[] = this.demoData();
+  private _allItems: Item[] = [];
   private _items$ = new BehaviorSubject<Item[]>(this._allItems);
 
   constructor() {}
