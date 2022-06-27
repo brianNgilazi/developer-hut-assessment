@@ -6,7 +6,7 @@ import { Item } from './item.model';
   providedIn: 'root',
 })
 export class ItemsService {
-  private _allItems: Item[] = this.demoData();
+  private _allItems: Item[] = [];
   private _items$ = new BehaviorSubject<Item[]>(this._allItems);
 
   constructor() {}
@@ -60,7 +60,7 @@ export class ItemsService {
   }
 
   /**
-   * Perform a case insensitive search
+   * Perform a case insensitive search on both the `title` and 'description`
    * @param query the search query
    */
   search(query: string) {
