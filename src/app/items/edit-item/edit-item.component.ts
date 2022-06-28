@@ -57,8 +57,8 @@ export class EditItemComponent implements OnInit, OnDestroy {
       this.showSnackbar('Item Updated Successfully');
       this.router.navigate(['items']);
     } else {
-      this.showSnackbar('Item Created Successfully');
       this.itemsService.addItem(this.form.value);
+      this.showSnackbar('Item Created Successfully');
       this.router.navigate(['items']);
     }
   }
